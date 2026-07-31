@@ -1,0 +1,11 @@
+const lightbox=document.querySelector('.lightbox'),lightboxImg=lightbox.querySelector('img');
+document.querySelectorAll('.photo').forEach(photo=>photo.addEventListener('click',()=>{lightboxImg.src=getComputedStyle(photo).backgroundImage.slice(5,-2);lightbox.showModal()}));
+lightbox.querySelector('button').addEventListener('click',()=>lightbox.close());
+lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.close()});
+const sides=document.querySelectorAll('.hero-side');
+const heroCopy=document.querySelectorAll('.hero-copy');
+const ride=()=>{const p=Math.min(scrollY/innerHeight,1);sides[0].style.backgroundPosition=`${56-p*32}% ${50+p*9}%`;sides[1].style.backgroundPosition=`${50+p*34}% ${50-p*7}%`;sides[0].style.filter=`brightness(${1-p*.16}) saturate(${1+p*.28})`;sides[1].style.filter=`brightness(${1-p*.12}) saturate(${1+p*.22})`;heroCopy[0].style.transform=`translate(${-p*150}px, ${p*20}px)`;heroCopy[1].style.transform=`translate(${p*150}px, ${p*20}px)`};
+addEventListener('scroll',ride,{passive:true});ride();
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in-view');observer.unobserve(entry.target)}}),{threshold:.14});
+document.querySelectorAll('.value-grid article,.sport-card,.price-card,.gallery-title,.photo,.quote-wrap,.faq h2,.accordion').forEach(el=>{el.classList.add('reveal');observer.observe(el)});
+document.querySelector('.menu').addEventListener('click',()=>document.querySelector('.nav nav').classList.toggle('open'));
